@@ -1,0 +1,8 @@
+{
+    "name": "ModuleManagement",
+    "description": "Module management for the admin panel: listing, activation, installation and updates.",
+    "version": "1.0.0",
+    "providers": [
+        "Modules\\ModuleManagement\\Providers\\ModuleManagementServiceProvider"
+    ]
+}

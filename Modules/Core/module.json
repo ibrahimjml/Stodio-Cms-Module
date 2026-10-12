@@ -1,0 +1,8 @@
+{
+    "name": "Core",
+    "description": "Core module providing essential functionalities for the application",
+    "version": "1.0.0",
+    "providers": [
+        "Modules\\Core\\Providers\\CoreServiceProvider"
+    ]
+}

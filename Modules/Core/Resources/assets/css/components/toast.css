@@ -1,0 +1,100 @@
+
+@layer components {
+    #global-toast {
+        @apply fixed bottom-4 right-4 z-[9999] w-full max-w-sm
+               opacity-0 transition-opacity duration-300 ease-in-out
+               pointer-events-none;
+    }
+
+    #global-toast.is-left {
+        @apply right-auto left-4;
+    }
+
+    #global-toast.is-visible {
+        @apply opacity-100;
+    }
+
+    #global-toast .toast-box {
+        @apply flex items-center gap-3 rounded-xl border p-4
+               bg-white shadow-lg;
+    }
+
+    #global-toast .toast-dot {
+        @apply size-2.5 shrink-0 rounded-full;
+    }
+
+    #global-toast .toast-text {
+        @apply text-sm font-medium text-gray-900;
+    }
+
+    #global-toast.toast-success .toast-box {
+        @apply border-green-500/30 bg-green-50/90;
+    }
+
+    #global-toast.toast-success .toast-text {
+        @apply text-green-500;
+    }
+
+    #global-toast.toast-success .toast-dot {
+        @apply bg-green-500;
+    }
+
+    #global-toast.toast-error .toast-box {
+        @apply border-red-500/30 bg-red-50/90;
+    }
+
+    #global-toast.toast-error .toast-text {
+        @apply text-red-500;
+    }
+
+    #global-toast.toast-error .toast-dot {
+        @apply bg-red-500;
+    }
+
+    #global-toast.toast-warning .toast-box {
+        @apply border-yellow-500/30 bg-yellow-50/90;
+    }
+
+    #global-toast.toast-warning .toast-text {
+        @apply text-yellow-500;
+    }
+    #global-toast.toast-info .toast-text {
+        @apply text-blue-500;
+    }
+    
+    #global-toast.toast-warning .toast-dot {
+        @apply bg-yellow-500;
+    }
+
+    #global-toast.toast-info .toast-box {
+        @apply border-blue-500/30 bg-blue-50/90;
+    }
+
+    #global-toast.toast-info .toast-dot {
+        @apply bg-blue-500;
+    }
+
+    .dark #global-toast .toast-box {
+        @apply bg-gray-800;
+    }
+
+    .dark #global-toast .toast-text {
+        @apply text-gray-100;
+    }
+
+    .dark #global-toast.toast-success .toast-box {
+        @apply border-green-500/50 bg-green-500/15;
+    }
+
+    .dark #global-toast.toast-error .toast-box {
+        @apply border-red-500/50 bg-red-500/15;
+    }
+
+    .dark #global-toast.toast-warning .toast-box {
+        @apply border-yellow-500/50 bg-yellow-500/15;
+    }
+
+    .dark #global-toast.toast-info .toast-box {
+        @apply border-blue-500/50 bg-blue-500/15;
+    }
+}

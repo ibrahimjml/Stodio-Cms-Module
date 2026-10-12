@@ -1,0 +1,25 @@
+{
+    "name": "modules/modulemanagement",
+    "description": "Module management domain for the CMS platform.",
+    "authors": [
+        {
+            "name": "ibrahim Ibrahimjml",
+            "email": "ibrahim712@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ModuleManagement\\": ""
+        }
+    }
+
+
+}

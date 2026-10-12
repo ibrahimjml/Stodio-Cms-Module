@@ -1,0 +1,44 @@
+@import 'tailwindcss';
+
+/* core component toast */
+@import '@core-css/components/toast';
+
+/* base */
+@import './components/base';
+
+/* sidebar */
+@import './components/sidebar';
+
+/* third-party apexcharts */
+@import './components/third-party';
+
+.tableCheckbox:checked ~ span span {
+  @apply opacity-100;
+}
+.tableCheckbox:checked ~ span {
+  @apply border-brand-500 bg-brand-500;
+}
+
+
+
+
+@media (max-width: 640px) {
+  .custom-calendar .fc-timegrid {
+    min-width: 580px;
+  }
+}
+.input-date-icon::-webkit-inner-spin-button,
+.input-date-icon::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  -webkit-appearance: none;
+}
+
+
+.api-token-chart .apexcharts-tooltip {
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+}
+
+
+

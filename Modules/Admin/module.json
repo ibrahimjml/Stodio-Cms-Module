@@ -1,0 +1,8 @@
+{
+    "name": "Admin",
+    "description": "Administration panel for managing the application",
+    "version": "1.0.0",
+    "providers": [
+        "Modules\\Admin\\Providers\\AdminServiceProvider"
+    ]
+}

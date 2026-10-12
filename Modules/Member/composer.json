@@ -1,0 +1,23 @@
+{
+    "name": "modules/member",
+    "description": "",
+    "authors": [
+        {
+            "name": "ibrahim Ibrahimjml",
+            "email": "ibrahim712@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Member\\": ""
+        }
+    }
+}

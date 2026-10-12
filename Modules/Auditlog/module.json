@@ -1,0 +1,8 @@
+{
+    "name": "Auditlog",
+    "description": "Audit log module for tracking user activities",
+    "version": "1.0.0",
+    "providers": [
+        "Modules\\Auditlog\\Providers\\AuditlogServiceProvider"
+    ]
+}

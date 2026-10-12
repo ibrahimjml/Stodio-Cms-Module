@@ -1,0 +1,8 @@
+{
+    "name": "Member",
+    "description": "Member module for managing application members",
+    "version": "1.0.0",
+    "providers": [
+        "Modules\\Member\\Providers\\MemberServiceProvider"
+    ]
+}

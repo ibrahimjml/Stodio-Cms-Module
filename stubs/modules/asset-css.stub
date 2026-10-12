@@ -1,0 +1,4 @@
+/* {{ studly }} module styles */
+@import 'tailwindcss';
+
+@source '../../views/**/*.blade.php';
