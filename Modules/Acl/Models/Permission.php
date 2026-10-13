@@ -10,13 +10,14 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 use Modules\Acl\Database\Factories\PermissionFactory;
+use Modules\Auditlog\Traits\AuditableLog;
 
 #[Table('permissions')]
 #[Fillable(['slug', 'name', 'module', 'description'])]
 #[UseFactory(PermissionFactory::class)]
 class Permission extends Model
 {
-    use HasFactory;
+    use HasFactory, AuditableLog;
 
     protected static function booted(): void
     {

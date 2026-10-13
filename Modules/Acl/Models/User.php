@@ -13,6 +13,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Storage;
 use Modules\Acl\Database\Factories\UserFactory;
 use Modules\Acl\Traits\HasPermission;
+use Modules\Auditlog\Traits\AuditableLog;
 use Modules\Core\Enums\UserImage;
 
 #[Table('users')]
@@ -21,7 +22,7 @@ use Modules\Core\Enums\UserImage;
 #[UseFactory(UserFactory::class)]
 class User extends Authenticatable
 {
-    use HasFactory, HasPermission, Notifiable;
+    use HasFactory, HasPermission, AuditableLog, Notifiable;
 
     protected function casts(): array
     {

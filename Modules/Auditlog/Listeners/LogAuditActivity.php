@@ -10,6 +10,10 @@ class LogAuditActivity
 {
      public function handle(AuditLogCreatedEvent $event): void
     {
+      if ($event->userId === null && auth()->id() === null) {
+            return;
+        }
+        
          AuditLog::create([
                  'user_agent' => $event->userAgent ?? request()->userAgent(),
                  'ip_address' => $event->ipAddress ?? request()->ip(),

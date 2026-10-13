@@ -6,8 +6,8 @@
     @php
         $typeBadgeClasses = [
             'created' => 'bg-green-50 text-green-600 dark:bg-green-500/15 dark:text-green-500',
-            'updated' => 'bg-blue-50 text-blue-600 dark:bg-blue-500/15 dark:text-blue-500',
-            'deleted' => 'bg-red-50 text-red-600 dark:bg-red-500/15 dark:text-red-500',
+            'updated' => 'bg-orange-50 text-orange-600 dark:bg-orange-500/15 dark:text-orange-500',
+            'danger' => 'bg-red-50 text-red-600 dark:bg-red-500/15 dark:text-red-500',
             'default' => 'bg-yellow-50 text-yellow-600 dark:bg-yellow-500/15 dark:text-orange-400',
         ];
     @endphp
@@ -40,10 +40,10 @@
                     <td class="px-4 py-4 whitespace-nowrap">
                         <div class="flex items-center">
                             <div class="shrink-0 w-8 h-8">
-                                <img class="w-8 h-8 rounded-full" src="{{ $auditLog->user->image_url }}" alt="{{ $auditLog->user->name }}">
+                                <img class="w-8 h-8 rounded-full" src="{{ $auditLog->user->image_url }}" alt="{{ $auditLog->user?->name ?? __('Guard') }}">
                             </div>
                             <div class="ltr:ml-4 rtl:mr-4">
-                                <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $auditLog->user->name }}</div>
+                                <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $auditLog->user?->name ?? __('Guard') }}</div>
                             </div>
                         </div>
                     </td>

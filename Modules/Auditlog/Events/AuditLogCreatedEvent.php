@@ -18,7 +18,7 @@ class AuditLogCreatedEvent
              public readonly ?int $referenceId = null,
              public readonly ?string $referenceName = null,
              public readonly ?string $type = null,
-             public readonly ?string $request = null,
+             public readonly ?array $request = null,
              public readonly ?string $userAgent = null,
              public readonly ?string $ipAddress = null,
          ) {}

@@ -16,8 +16,9 @@ class CreateSystemAccessLog
     {
         $this->auditLogService->log(
             module: 'System',
-            action: 'Logged in',
-            referenceUser: 0,
+            action: "Logged in",
+            userId: $user->getKey(),
+            referenceUser: $user->getKey(),
             referenceId: $user->getKey(),
             referenceName: $user->name,
             type: 'info',

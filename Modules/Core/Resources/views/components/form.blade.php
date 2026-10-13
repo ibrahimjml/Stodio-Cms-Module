@@ -4,8 +4,6 @@
 ])
 
 @php
-    // Browsers only support GET/POST on forms. Spoofed verbs (PUT/PATCH/DELETE)
-    // must still render method="POST" with a hidden _method field.
     $htmlMethod = in_array(strtoupper($method), ['GET', 'POST']) ? strtoupper($method) : 'POST';
 @endphp
 

@@ -13,7 +13,7 @@ class AuditLogController
     #[Middleware('permission:auditlog.view')]
     public function index(): View
     {
-        $auditLogs = AuditLog::query()->with('user')->latest()->paginate(3);
+        $auditLogs = AuditLog::query()->with('user')->latest()->paginate(5);
 
         return view('auditlog::admin.index', compact('auditLogs'));
     }

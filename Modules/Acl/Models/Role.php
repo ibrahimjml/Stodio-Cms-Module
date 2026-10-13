@@ -11,13 +11,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Modules\Acl\Database\Factories\RoleFactory;
 use Modules\Acl\Traits\RoleHasSlug;
+use Modules\Auditlog\Traits\AuditableLog;
 
 #[Table('roles')]
 #[Fillable(['slug', 'name', 'is_default', 'created_by', 'updated_by'])]
 #[UseFactory(RoleFactory::class)]
 class Role extends Model
 {
-    use HasFactory, RoleHasSlug;
+    use AuditableLog, HasFactory, RoleHasSlug;
 
     protected function casts(): array
     {

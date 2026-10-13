@@ -10,12 +10,20 @@ use Modules\Acl\Models\User;
 
 
 #[Fillable([
-  'user_agent','ip_address','module','action','user_id',
-  'reference_user','reference_id','reference_name','type','request']
+  'user_agent', 'ip_address', 'module', 'action', 'user_id',
+  'reference_user', 'reference_id', 'reference_name', 'type', 'request']
   )]
 class AuditLog extends Model
 {
     use HasFactory;
+
+    protected function casts(): array
+    {
+        return [
+            'request' => 'array',
+        ];
+    }
+    
  /**
   * @return BelongsTo<User, $this>
   */

@@ -32,7 +32,7 @@ Stodio CMS is a modular content management system built with Laravel 13. Its fea
 
 | ![Admin Dashboard](https://i.postimg.cc/v84Xv7Vb/Screenshot-2026-10-12-214219.png) | ![User Management](https://i.postimg.cc/yN536RY0/Screenshot-2026-10-12-214314.png) |
 |:---:|:---:|
-| ![Role Management](https://i.postimg.cc/fy7Vvg7g/Screenshot-2026-10-12-214329.png) | ![Audit log](https://i.postimg.cc/Z5sCjN3Y/Screenshot-2026-10-12-214429.png) |
+| ![Role Management](https://i.postimg.cc/fy7Vvg7g/Screenshot-2026-10-12-214329.png) | ![Audit log](https://i.postimg.cc/X74XxskG/Screenshot-2026-10-13-175707.png) |
 | ![Module Management](https://i.postimg.cc/PqPbXThY/Screenshot-2026-10-12-214155.png) | 
 
 

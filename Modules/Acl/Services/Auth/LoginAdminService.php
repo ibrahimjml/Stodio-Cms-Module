@@ -7,11 +7,13 @@ use Modules\Acl\Dto\AdminLoginDto as LoginDto;
 use Modules\Acl\Exceptions\LoginException;
 use Modules\Acl\Models\User;
 use Modules\Auditlog\Actions\CreateSystemAccessLog;
+use Modules\Auditlog\Actions\CreateSystemLoggedOutLog;
 
 class LoginAdminService
 {
     public function __construct(
-        protected CreateSystemAccessLog $auditLog
+        protected CreateSystemAccessLog $auditLog,
+        protected CreateSystemLoggedOutLog $auditlogout
     ) {}
 
     public function handleLogin(LoginDto $dto): User
@@ -39,7 +41,12 @@ class LoginAdminService
 
     public function logout(): void
     {
-        Auth::guard('web')->logout();
+         $user = Auth::guard('web')->user();
+         Auth::guard('web')->logout();
+         
+        if (module_enabled('Auditlog')) {
+            $this->auditlogout->log($user);
+        }
 
         session()->invalidate();
         session()->regenerateToken();

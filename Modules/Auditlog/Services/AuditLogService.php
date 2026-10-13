@@ -22,7 +22,7 @@ class AuditLogService
         ?int $referenceId = null,
         ?string $referenceName = null,
         ?string $type = null,
-        ?string $request = null,
+        ?array $request = null,
     ): void {
         event(new AuditLogCreatedEvent(
             module: $module,
@@ -46,15 +46,47 @@ class AuditLogService
         string $action,
         $model,
         ?string $type = null,
+        array $new = []
     ): void {
+         $verb = match (strtolower($action)) {
+            'created' => 'Created',
+            'warning' => 'Updated',
+            'danger' => 'Deleted',
+            default => ucfirst($action),
+        };
+
         $this->log(
             module: $module,
-            action: $action,
-            userId: auth()->id(),
-            referenceUser: $model->user_id ?? null,
-            referenceId: $model->id,
-            referenceName: class_basename($model),
+            action: "{$verb} {$module} \"{$this->resolveReferenceLabel($model)}\"",
+            userId: $this->request->user() ? $this->request->user()->getKey() : 0,
+            referenceUser: $this->resolveReferenceUser($model),
+            referenceId: $model->getKey(),
+            referenceName: $this->resolveReferenceLabel($model, $module),
             type: $type ?? strtolower($action),
+            request: [ 'new' => $new ]
         );
+    }
+     protected function resolveReferenceLabel($model, ?string $module = null): string
+    {
+        $module ??= class_basename($model);
+
+        foreach (['name', 'title', 'slug'] as $attribute) {
+            $value = $model->{$attribute} ?? null;
+
+            if (is_string($value) && $value !== '') {
+                return $value;
+            }
+        }
+
+        return "{$module} #{$model->getKey()}";
+    }
+
+    protected function resolveReferenceUser($model): ?int
+    {
+        if ($model instanceof User) {
+            return $model->getKey();
+        }
+
+        return $model->user_id ?? null;
     }
 }

@@ -37,12 +37,12 @@
                     <td class="px-4 py-4 whitespace-nowrap">
                          <div class="flex flex-wrap gap-2">
                           @foreach($role->permissions->take(10) as $permission)
-                            <span class="dark:bg-blue-300 bg-green-200 gap-2 text-xs dark:text-blue-700 text-green-800 px-2 py-1 rounded-lg">
+                            <span class="dark:bg-blue-500/15 dark:text-blue-500 bg-green-50 gap-2 text-xs bg-green-50 text-green-500 px-2 py-1 rounded-lg">
                               {{ $permission->name }}
                             </span>
                           @endforeach
                           @if($role->permissions->count() > 10)
-                            <span class="bg-green-100 text-green-500 dark:bg-blue-200/80 dark:text-blue-800 text-xs px-2 py-1 rounded border border-green-200 dark:border-blue-200 cursor-pointer"
+                            <span class="bg-green-50 text-green-600 dark:bg-blue-500/15 dark:text-blue-500 text-xs px-2 py-1 rounded  cursor-pointer"
                                   title="+{{ $role->permissions->count() - 10 }} more permissions">
                                 +{{ $role->permissions->count() - 10 }}
                             </span>
