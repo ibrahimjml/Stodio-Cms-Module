@@ -21,10 +21,6 @@ class CheckPermission
             abort(403);
         }
 
-        // if (method_exists($user, 'isSuperUser') && $user->isSuperUser()) {
-        //     return $next($request);
-        // }
-
         if (! method_exists($user, 'hasAnyPermission') || ! $user->hasAnyPermission($permissions)) {
             abort(403, __('You do not have the required permission.'));
         }

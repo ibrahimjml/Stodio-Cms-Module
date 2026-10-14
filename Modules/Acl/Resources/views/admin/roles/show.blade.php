@@ -21,9 +21,13 @@
                         <h2 class="font-semibold text-gray-900 dark:text-white">{{ $module }}</h2>
                         <span class="text-xs text-gray-500 dark:text-gray-400">{{ $permissions->count() }}</span>
                     </div>
-                    <ul class="divide-y divide-gray-100 dark:divide-gray-800">
+                    <ul class="flex flex-wrap gap-2 m-2">
                         @foreach ($permissions as $permission)
-                            <li class="px-5 py-3 text-sm text-gray-700 dark:text-gray-300">{{ $permission->name }}</li>
+                            <li class="p-2 text-sm ">
+                                <span class="bg-green-50 text-green-600 dark:bg-blue-500/15 dark:text-blue-500 text-xs px-2 py-1 rounded  cursor-pointer">
+                                {{ $permission->name }}
+                            </span>
+                            </li>
                         @endforeach
                     </ul>
                 </section>

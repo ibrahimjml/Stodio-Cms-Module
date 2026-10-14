@@ -1,35 +1,38 @@
 @extends('admin::layouts.admin')
 
-@section('title', __('Edit user'))
+@section('title', __('User profile'))
+
+@php
+    $initialTab = old('section', request()->query('tab', 'profile'));
+    $showRolesTab = ($canManageSupers ?? false) && auth()->user()?->isSuperUser();
+    if ($initialTab === 'roles' && ! $showRolesTab) {
+        $initialTab = 'profile';
+    }
+@endphp
 
 @section('content')
-    <x-core::form.card :title="__('Edit user :name', ['name' => $user->name])">
-        <x-core::form :action="route('admin.acl.users.update', $user)" method="PUT" class="space-y-5 p-6 sm:p-8">
-            <x-core::form.field name="first_name" :label="__('First name')" :value="$user->first_name" required />
-            <x-core::form.field name="last_name" :label="__('Last name')" :value="$user->last_name" required />
-            <x-core::form.field name="username" :label="__('Username')" :value="$user->username" required />
-            <x-core::form.field name="email" type="email" :label="__('Email')" :value="$user->email" required />
-            <x-core::form.field name="password" type="password" :label="__('Password')" :placeholder="__('password')" :required="false" />
+    <div class="mx-auto max-w-4xl" x-data="{ tab: @js($initialTab) }">
+        <div class="mb-6 flex items-center gap-4">
+            <img src="{{ $user->image_url }}" alt="{{ $user->name }}"
+                class="h-16 w-16 rounded-2xl border border-gray-200 object-cover dark:border-gray-700">
+            <div>
+                <h1 class="text-xl font-bold text-gray-900 dark:text-white">{{ $user->name }}</h1>
+                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $user->email }} · {{ '@'.$user->username }}</p>
+            </div>
+            <a href="{{ route('admin.acl.users.index') }}"
+                class="ms-auto rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-white/5">
+                {{ __('Back') }}
+            </a>
+        </div>
+         <!-- Tabs -->
+         @include('acl::admin.users.profile.tabs')
 
-            @can('update', $user)
-                <div class="space-y-5 border-t border-gray-200 pt-5 dark:border-gray-800">
-                    <x-core::form.toggle id="toggle_super_user" name="super_user" :label="__('Super user')" :checked="$user->super_user" />
-
-                    @if ($roles->isNotEmpty())
-                        <x-core::form.multi-select
-                            name="roles[]"
-                            :label="__('Roles')"
-                            :options="$roles->map(fn ($role) => ['id' => $role->getKey(), 'name' => $role->name])->values()->all()"
-                            :selected="old('roles', $user->roles->modelKeys())"
-                            :placeholder="__('Select roles...')"
-                        />
-                    @endif
-                </div>
-
-                <div class="border-t border-gray-200 pt-5 dark:border-gray-800">
-                    <x-core::form.submit>{{ __('Update') }}</x-core::form.submit>
-                </div>
-            @endcan
-        </x-core::form>
-    </x-core::form.card>
+         <!-- Profile tab -->
+         @include('acl::admin.users.profile.profile')
+         <!-- Password tab -->
+         @include('acl::admin.users.profile.password')
+         <!-- Avatar tab -->
+         @include('acl::admin.users.profile.avatar')
+         <!-- Roles tab -->
+         @include('acl::admin.users.profile.roles')
 @endsection

@@ -27,7 +27,15 @@ class StoreUserRequest extends FormRequest
 
         return true;
     }
-
+    
+     protected function prepareForValidation(): void
+     {
+        if ($this->has('email')) {
+             $this->merge([
+                 'email' => strip_tags(strtolower((string) $this->input('email'))),
+             ]);
+          }   
+     }
     /**
      * @return array<string, mixed>
      */

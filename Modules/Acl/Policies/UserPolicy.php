@@ -31,11 +31,15 @@ class UserPolicy
 
     public function update(User $actor, User $target): bool
     {
+        if ($actor->is($target)) {
+            return true;
+        }
+
         if (! $actor->hasPermission('acl.users.edit')) {
             return false;
         }
 
-        if (! $actor->is($target) && self::isProtectedTarget($target) && ! self::canManageSupers($actor)) {
+        if (self::isProtectedTarget($target) && ! self::canManageSupers($actor)) {
             return false;
         }
 

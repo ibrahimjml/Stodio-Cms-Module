@@ -30,10 +30,41 @@ Stodio CMS is a modular content management system built with Laravel 13. Its fea
 
 ## Screenshots
 
-| ![Admin Dashboard](https://i.postimg.cc/v84Xv7Vb/Screenshot-2026-10-12-214219.png) | ![User Management](https://i.postimg.cc/yN536RY0/Screenshot-2026-10-12-214314.png) |
-|:---:|:---:|
-| ![Role Management](https://i.postimg.cc/fy7Vvg7g/Screenshot-2026-10-12-214329.png) | ![Audit log](https://i.postimg.cc/X74XxskG/Screenshot-2026-10-13-175707.png) |
-| ![Module Management](https://i.postimg.cc/PqPbXThY/Screenshot-2026-10-12-214155.png) | 
+### 🔐 Authentication
+
+| Admin Login | Member Login |
+| :---: | :---: |
+| ![Admin Login](https://i.postimg.cc/3JMFg9CK/Screenshot-2026-10-14-222003.png) | ![Member Login](https://i.postimg.cc/httzx7w4/Screenshot-2026-10-14-222020.png) |
+
+### Control Panel
+
+| Dashboard (light) | Dashboard (dark) |
+| :---: | :---: |
+| ![Panel light](https://i.postimg.cc/zD298mN3/Screenshot-2026-10-14-222743.png) | ![Panel dark](https://i.postimg.cc/Qt0vFwW4/Screenshot-2026-10-14-222718.png) |
+
+### Users Management
+
+| Users List | Users Profile |
+| :---: | :---: |
+| ![Users Page](https://i.postimg.cc/2662K6VS/Screenshot-2026-10-14-220118.png) | ![Users Profile](https://i.postimg.cc/HkdKtT4s/Screenshot-2026-10-14-220200.png) |
+
+### Roles Management
+
+| Roles List | Roles Show |
+| :---: | :---: |
+| ![Roles Page](https://i.postimg.cc/NM6mbvxb/Screenshot-2026-10-14-223455.png) | ![Roles Show](https://i.postimg.cc/yN9ZYC2K/Screenshot-2026-10-14-220047.png) |### Roles Management
+
+### Audit Logs
+
+| Audit Logs List 
+| :---: 
+| ![Audit Logs](https://i.postimg.cc/xCZDsBjZ/Screenshot-2026-10-14-220349.png) 
+
+### Modules Management
+
+| Modules List 
+| :---: 
+| ![Modules List](https://i.postimg.cc/k5kLKKjq/Screenshot-2026-10-14-224253.png) 
 
 
 ## Create an administrator
@@ -47,7 +78,9 @@ php artisan stodio:user:create
 Follow the prompts to enter a first name, last name, username, email address, and password. Then open `/admin/login` on your local application and sign in. To synchronize ACL permissions and seed the Acl module's roles and permissions, run:
 
 ```bash
+# sync permissions via modules config files
 php artisan stodio:acl:sync
+# seed permissions + roles
 php artisan module:seed Acl
 ```
 
@@ -80,7 +113,7 @@ php artisan module:migrate ModuleName
 To roll back a module's migrations:
 
 ```bash
-php artisan module:migrate:rollback ModuleName
+php artisan module:migrate-rollback ModuleName
 ```
 
 ## Frontend commands

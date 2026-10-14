@@ -15,6 +15,7 @@ use Modules\Acl\Database\Factories\UserFactory;
 use Modules\Acl\Traits\HasPermission;
 use Modules\Auditlog\Traits\AuditableLog;
 use Modules\Core\Enums\UserImage;
+use Modules\Core\Support\AvatarManager;
 
 #[Table('users')]
 #[Fillable(['first_name', 'last_name', 'username', 'avatar', 'email', 'password', 'super_user', 'manage_supers', 'last_login'])]
@@ -22,7 +23,7 @@ use Modules\Core\Enums\UserImage;
 #[UseFactory(UserFactory::class)]
 class User extends Authenticatable
 {
-    use HasFactory, HasPermission, AuditableLog, Notifiable;
+    use AuditableLog, HasFactory, HasPermission, Notifiable;
 
     protected function casts(): array
     {
@@ -66,9 +67,15 @@ class User extends Authenticatable
     public function imageUrl(): Attribute
     {
         return new Attribute(
-            get: fn (): string => $this->avatar !== UserImage::AVATAR->value
-              ? Storage::disk('public')->url('avatars/'.$this->avatar)
-              : asset('vendor/core/img/'.UserImage::AVATAR->value),
+            get: function (): string {
+                if (AvatarManager::isDefault($this->avatar)) {
+                    return asset('vendor/core/img/' . UserImage::AVATAR->value);
+                }
+
+                $path = str_contains($this->avatar, '/') ? $this->avatar : 'avatars/'.$this->avatar;
+
+                return Storage::disk('public')->url($path);
+            },
         );
     }
 }

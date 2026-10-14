@@ -11,10 +11,10 @@ use Modules\Acl\Http\Requests\Admin\UpdateUserRequest;
 use Modules\Acl\Models\Role;
 use Modules\Acl\Models\User;
 use Modules\Acl\Policies\UserPolicy;
+use Modules\Acl\Services\User\UserProfileService;
 
 class UserController
 {
-  
     #[Middleware('permission:acl.users.view')]
     public function index(): View
     {
@@ -50,43 +50,40 @@ class UserController
         return redirect()->route('admin.acl.users.index')->with('success', __('User has been created.'));
     }
 
-    #[Middleware('permission:acl.users.edit')]
     public function edit(User $user): View
     {
         Gate::authorize('update', $user);
 
         $user->load('roles');
         $roles = Role::query()->orderBy('name')->get();
+        $canManageSupers = $this->canManageSupers(request()->user());
 
-        return view('acl::admin.users.edit', compact('user', 'roles'));
+        return view('acl::admin.users.edit', compact('user', 'roles', 'canManageSupers'));
     }
 
-    #[Middleware('permission:acl.users.edit')]
-    public function update(UpdateUserRequest $request, User $user): RedirectResponse
+    public function update(UpdateUserRequest $request, User $user, UserProfileService $service): RedirectResponse
     {
         Gate::authorize('update', $user);
 
         $validated = $request->validated();
+        $section = $validated['section'] ?? 'profile';
 
-        $data = [
-            'first_name' => $validated['first_name'],
-            'last_name' => $validated['last_name'],
-            'username' => $validated['username'],
-            'email' => $validated['email'],
-        ];
+        $service->update($request->user(), $user, $validated);
 
-        if (! empty($validated['password'])) {
-            $data['password'] = $validated['password'];
-        }
+        return redirect()
+            ->route('admin.acl.users.profile', ['user' => $user->getKey(), 'tab' => $section])
+            ->with('success', __('User has been updated.'));
+    }
 
-        if ($this->canManageSupers($request->user()) && $user->getKey() !== $request->user()->getKey()) {
-            $data['super_user'] = (bool) ($validated['super_user'] ?? false);
-        }
+    public function destroyAvatar(User $user, UserProfileService $service): RedirectResponse
+    {
+        Gate::authorize('update', $user);
 
-        $user->update($data);
-        $user->syncRoles($validated['roles'] ?? []);
+        $service->removeAvatar($user);
 
-        return redirect()->route('admin.acl.users.index')->with('success', __('User has been updated.'));
+        return redirect()
+            ->route('admin.acl.users.profile', ['user' => $user->getKey(), 'tab' => 'avatar'])
+            ->with('success', __('Avatar has been deleted.'));
     }
 
     #[Middleware('permission:acl.users.delete')]

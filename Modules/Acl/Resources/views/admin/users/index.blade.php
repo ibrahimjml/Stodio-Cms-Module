@@ -72,7 +72,7 @@
 
                                 <x-slot name="content">
                                     @can('update', $user)
-                                    <a href="{{ route('admin.acl.users.edit', $user) }}" class="flex w-full px-3 py-2 font-medium text-start rounded-lg text-theme-xs hover:bg-gray-50 dark:hover:bg-white/5">
+                                    <a href="{{ route('admin.acl.users.profile', $user) }}" class="flex w-full px-3 py-2 font-medium text-start rounded-lg text-theme-xs hover:bg-gray-50 dark:hover:bg-white/5">
                                         {{ __('Edit') }}
                                     </a>
                                     @endcan
