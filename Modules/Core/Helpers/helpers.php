@@ -2,6 +2,7 @@
 
 use Ibrahimjml\LaravelModules\ModuleManager;
 use Modules\Core\Models\Setting;
+use Illuminate\Support\Str;
 
 if (! function_exists('svg')) {
 
@@ -39,5 +40,15 @@ if (! function_exists('setting')) {
     function setting(string $key, $default = null): mixed
     {
         return Setting::get($key, $default);
+    }
+}
+
+if (! function_exists('module_asset')) {
+
+    function module_asset(string $module, string $path): string
+    {
+        $moduleName = Str::studly($module);
+
+        return asset('vendor/core/' . $moduleName . '/' . ltrim($path, '/'));
     }
 }

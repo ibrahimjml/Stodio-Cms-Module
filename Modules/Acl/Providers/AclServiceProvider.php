@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Modules\Acl\Console\CreateUserCommand;
-use Modules\Acl\Console\SyncPermissionsCommand;
 use Modules\Acl\Http\Middleware\CheckPermission;
 use Modules\Acl\Http\Middleware\CheckRole;
 use Modules\Acl\Http\Middleware\RedirectIfAdmin;
@@ -15,18 +13,25 @@ use Modules\Acl\Http\Middleware\RedirectIfNotAdmin;
 use Modules\Acl\Models\User;
 use Modules\Acl\Policies\UserPolicy;
 use Modules\Acl\Services\PermissionSyncService;
+use Modules\Core\Traits\LoadDataTrait;
 
 class AclServiceProvider extends ServiceProvider
 {
+    use LoadDataTrait;
+    
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../Config/config.php', 'acl');
-
         config()->set(['auth.providers.users.model' => User::class]);
     }
 
     public function boot(): void
     {
+        $this->registerCommands();
+
+        $this->loadHelpers()
+             ->loadAndPublishConfigurations(['config','permission'])
+             ->publishAssets();
+
         $router = $this->app['router'];
 
         $router->aliasMiddleware('admin', RedirectIfNotAdmin::class);
@@ -38,17 +43,6 @@ class AclServiceProvider extends ServiceProvider
         $this->registerAuthorization();
         $this->registerAdminRoutes();
 
-        if ($this->app->runningInConsole()) {
-
-            $this->commands([
-                CreateUserCommand::class,
-                SyncPermissionsCommand::class,
-            ]);
-
-            $this->publishes([
-                __DIR__.'/../Config/config.php' => config_path('acl.php'),
-            ], 'acl-config');
-        }
     }
 
     private function registerBladeDirectives(): void
@@ -101,5 +95,10 @@ class AclServiceProvider extends ServiceProvider
                 return $user instanceof User && $user->hasPermission($name);
             });
         }
+    }
+
+    private function registerCommands(): void
+    {
+        $this->app->register(CommandServiceProvider::class);
     }
 }

@@ -4,33 +4,26 @@ namespace Modules\Core\Providers;
 
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
+use Modules\Core\Support\Action;
+use Modules\Core\Support\Filter;
+use Modules\Core\Traits\LoadDataTrait;
 
 class CoreServiceProvider extends ServiceProvider
 {
+    use LoadDataTrait;
+
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../Config/config.php', 'core');
+        $this->loadAndPublishConfigurations(['config', 'permission']);
+        $this->app->singleton('core.action', Action::class);
+        $this->app->singleton('core.filter', Filter::class);
     }
 
     public function boot(): void
     {
         $this->loadBladeDirectives();
-        $this->loadHelpers();
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                //
-            ]);
-
-            $this->publishes([
-                __DIR__.'/../Config/config.php' => config_path('core.php'),
-            ], 'core-config');
-
-            $this->publishes([
-                __DIR__.'/../public' => public_path('vendor/core'),
-            ], 'assets-config');
-
-        }
+        $this->loadHelpers()
+             ->publishAssets();
 
     }
 
@@ -51,9 +44,4 @@ class CoreServiceProvider extends ServiceProvider
         });
     }
 
-    private function loadHelpers(): void
-    {
-        $this->app->make('files')->requireOnce(__DIR__.'/../Helpers/helpers.php');
-        $this->app->make('files')->requireOnce(__DIR__.'/../Helpers/constants.php');
-    }
 }

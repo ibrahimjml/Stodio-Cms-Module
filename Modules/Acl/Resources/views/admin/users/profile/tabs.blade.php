@@ -26,4 +26,7 @@
             {{ __('Roles') }}
         </button>
     @endif
+    @if ($canShowTwoFactorTab)
+        @include('twofactor::settings.profile.tab-button')
+    @endif
 </div>

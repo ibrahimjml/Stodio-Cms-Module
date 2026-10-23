@@ -2,41 +2,44 @@
 
 namespace Modules\Acl\Services\Auth;
 
+use Closure;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use Modules\Acl\Dto\AdminLoginDto as LoginDto;
 use Modules\Acl\Exceptions\LoginException;
 use Modules\Acl\Models\User;
-use Modules\Auditlog\Actions\CreateSystemAccessLog;
-use Modules\Auditlog\Actions\CreateSystemLoggedOutLog;
 
 class LoginAdminService
 {
-    public function __construct(
-        protected CreateSystemAccessLog $auditLog,
-        protected CreateSystemLoggedOutLog $auditlogout
-    ) {}
-
-    public function handleLogin(LoginDto $dto): User
+    public function handleLogin(LoginDto $dto): User|RedirectResponse
     {
-        if (! Auth::guard('web')->validate($dto->credentials())) {
-            throw LoginException::invalidCredentials();
-        }
+        return app(Pipeline::class)
+            ->send($dto)
+            ->through(apply_filter(ACL_LOGIN_PIPELINE, [
+                function (LoginDto $dto, Closure $next) {
+                    $this->validateCredentials($dto);
 
-        $user = $this->findUser($dto);
+                    $user = $this->findUser($dto);
 
-        $this->validateUser($user);
+                    $this->validateUser($user);
 
-        Auth::guard('web')->login($user, $dto->remember);
+                    Auth::guard('web')->login($user, $dto->remember);
 
-        session()->regenerate();
+                    return $next($dto);
+                },
+            ], $dto))
+            ->then(function (LoginDto $dto) {
+                $user = Auth::guard('web')->user();
 
-        if (module_enabled('Auditlog')) {
-            $this->auditLog->logAccess($user);
-        }
+                session()->regenerate();
 
-        $user->forceFill(['last_login' => now()])->save();
+                $user->forceFill(['last_login' => now()])->save();
 
-        return $user;
+                do_action(LOG_AUTH_ACTION_AFTER_LOGIN_SYSTEM, $user);
+
+                return $user;
+            });
     }
 
     public function logout(): void
@@ -44,19 +47,24 @@ class LoginAdminService
          $user = Auth::guard('web')->user();
          Auth::guard('web')->logout();
          
-        if (module_enabled('Auditlog')) {
-            $this->auditlogout->log($user);
-        }
-
         session()->invalidate();
         session()->regenerateToken();
-    }
 
+        do_action(LOG_AUTH_ACTION_AFTER_LOGOUT_SYSTEM, $user);
+    }
+    
+    private function validateCredentials(mixed $dto): void
+    {
+        if (! Auth::guard('web')->validate($dto->credentials())) {
+            throw LoginException::invalidCredentials();
+        }
+    }
     private function findUser(LoginDto $dto): User
     {
         return User::query()
             ->where($dto->loginType, $dto->login)
-            ->first();
+            ->first()
+            ?? throw LoginException::invalidCredentials();
     }
 
     private function validateUser(User $user): void

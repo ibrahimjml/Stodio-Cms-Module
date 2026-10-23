@@ -9,7 +9,8 @@
     <title>{{ $title ?? 'Dashboard' }} | TailAdmin - Laravel Tailwind CSS Admin Dashboard Template</title>
 
     <!-- Scripts -->
-    @moduleVite('admin')
+    @stack('head-scripts')
+    @moduleVite('Admin')
 
     <!-- Theme Store -->
     <style>

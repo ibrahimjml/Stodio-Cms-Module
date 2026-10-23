@@ -25,4 +25,3 @@
                 </x-core::form.card>
             </div>
         @endif
-    </div>

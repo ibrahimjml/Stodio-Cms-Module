@@ -4,5 +4,6 @@
     "Core": true,
     "Acl": true,
     "Member": true,
-    "ModuleManagement": true
+    "ModuleManagement": true,
+    "TwoFactor": true
 }

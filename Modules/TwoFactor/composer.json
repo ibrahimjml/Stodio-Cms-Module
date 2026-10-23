@@ -1,0 +1,27 @@
+{
+    "name": "modules/twofactor",
+    "description": "",
+    "authors": [
+        {
+            "name": "ibrahim Ibrahimjml",
+            "email": "ibrahim712@gmail.com"
+        }
+    ],
+    "require": {
+        "pragmarx/google2fa-laravel": "^3.0",
+        "simplesoftwareio/simple-qrcode": "~4"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\TwoFactor\\": ""
+        }
+    }
+}

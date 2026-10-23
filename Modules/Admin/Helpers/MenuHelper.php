@@ -148,7 +148,8 @@ class MenuHelper
             [
                 'icon' => 'auth',
                 'name' => 'Auth Security Rules',
-                'path' => '/',
+                'path' => route('core.platform.auth-rules.index'),
+                'permission' => 'twofactor.settings.update'
             ],
             [
                 'icon' => 'post',
@@ -208,22 +209,22 @@ class MenuHelper
                 'title' => 'Overview',
                 'items' => self::getMainNavItems(),
             ],
-            [
-                'title' => 'Content Management',
-                'items' => self::getContentManagement(),
-            ],
+            // [
+            //     'title' => 'Content Management',
+            //     'items' => self::getContentManagement(),
+            // ],
             [
                 'title' => 'Members and Access Control',
                 'items' => self::getUsersPrivileges(),
             ],
-            [
-                'title' => 'Monetization',
-                'items' => self::getMonetization(),
-            ],
-            [
-                'title' => 'Scraping and Automation',
-                'items' => self::getScraping(),
-            ],
+            // [
+            //     'title' => 'Monetization',
+            //     'items' => self::getMonetization(),
+            // ],
+            // [
+            //     'title' => 'Scraping and Automation',
+            //     'items' => self::getScraping(),
+            // ],
             [
                 'title' => 'System Settings',
                 'items' => self::getSystemSettings(),

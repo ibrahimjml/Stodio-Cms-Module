@@ -35,4 +35,9 @@
          @include('acl::admin.users.profile.avatar')
          <!-- Roles tab -->
          @include('acl::admin.users.profile.roles')
+         <!-- Two Factor tab -->
+         @if ($canShowTwoFactorTab)
+             @include('twofactor::settings.profile.tab-panel')
+         @endif
+    </div>
 @endsection

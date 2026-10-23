@@ -7,19 +7,26 @@ use Illuminate\Database\Console\PruneCommand;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\Auditlog\Models\AuditLog;
+use Modules\Core\Traits\LoadDataTrait;
 
 class AuditlogServiceProvider extends ServiceProvider
 {
+    use LoadDataTrait;
+
     public function register(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../Config/config.php', 'auditlog');
-
+        //
     }
 
     public function boot(): void
     {
         $this->registerEvents();
         $this->registerCommands();
+        
+        $this->loadHelpers()
+             ->loadAndPublishConfigurations(['config','permission'])
+             ->publishAssets();
+
         $this->bindRoutes();
 
         if ($this->app->runningInConsole()) {
@@ -30,11 +37,11 @@ class AuditlogServiceProvider extends ServiceProvider
                     ->dailyAt('00:30');
             });
         
-
-            $this->publishes([
-                __DIR__.'/../Config/config.php' => config_path('auditlog.php'),
-            ], 'auditlog-config');
         }
+
+        $this->app->booted(function (): void {
+            $this->app->register(ActionServiceProvider::class);
+        });
     }
 
     private function registerEvents(): void

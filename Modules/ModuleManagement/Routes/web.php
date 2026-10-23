@@ -9,7 +9,7 @@ Route::middleware(['web'])
     ->group(function (): void {
 
         Route::middleware('admin')->group(function (): void {
-            if (config('modulemanagement.enabled_modules_manager')) {
+            if (config('modulemanagement.config.enabled_modules_manager')) {
 
                 Route::get('modules', [ModulesController::class, 'index'])->name('modules.index');
 

@@ -25,6 +25,11 @@ class User extends Authenticatable
 {
     use AuditableLog, HasFactory, HasPermission, Notifiable;
 
+    /** 
+     *  table refrence morph twofactor
+     * **/
+    public const TABLE = "user";
+
     protected function casts(): array
     {
         return [
@@ -69,7 +74,7 @@ class User extends Authenticatable
         return new Attribute(
             get: function (): string {
                 if (AvatarManager::isDefault($this->avatar)) {
-                    return asset('vendor/core/img/' . UserImage::AVATAR->value);
+                    return module_asset('core', 'img/' . UserImage::AVATAR->value);
                 }
 
                 $path = str_contains($this->avatar, '/') ? $this->avatar : 'avatars/'.$this->avatar;

@@ -6,6 +6,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Attributes\Controllers\Middleware;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
+use Modules\Acl\Http\Requests\Admin\ShowUserProfileRequest;
 use Modules\Acl\Http\Requests\Admin\StoreUserRequest;
 use Modules\Acl\Http\Requests\Admin\UpdateUserRequest;
 use Modules\Acl\Models\Role;
@@ -50,15 +51,14 @@ class UserController
         return redirect()->route('admin.acl.users.index')->with('success', __('User has been created.'));
     }
 
-    public function edit(User $user): View
+    public function edit(ShowUserProfileRequest $request, User $user): View
     {
-        Gate::authorize('update', $user);
-
         $user->load('roles');
         $roles = Role::query()->orderBy('name')->get();
         $canManageSupers = $this->canManageSupers(request()->user());
+        $canShowTwoFactorTab = $request->canShowTwoFactorTab();
 
-        return view('acl::admin.users.edit', compact('user', 'roles', 'canManageSupers'));
+        return view('acl::admin.users.edit', compact('user', 'roles', 'canManageSupers', 'canShowTwoFactorTab'));
     }
 
     public function update(UpdateUserRequest $request, User $user, UserProfileService $service): RedirectResponse

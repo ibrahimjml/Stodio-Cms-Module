@@ -16,10 +16,22 @@ class LoginController
         return view('acl::admin.auth.login');
     }
 
-    public function authenticate(LoginRequest $request, LoginAdminService $loginService): JsonResponse
+    public function authenticate(LoginRequest $request, LoginAdminService $loginService): JsonResponse|RedirectResponse
     {
         try {
-            $loginService->handleLogin($request->toDTO());
+            $result = $loginService->handleLogin($request->toDTO());
+
+            if ($result instanceof RedirectResponse) {
+                if ($request->expectsJson()) {
+                    return response()->json([
+                        'success' => true,
+                        'message' => 'Two-factor authentication required.',
+                        'redirect' => $result->getTargetUrl(),
+                    ]);
+                }
+
+                return $result;
+            }
 
             $message = 'Logged in successfully.';
 

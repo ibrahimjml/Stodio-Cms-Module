@@ -21,7 +21,7 @@ class ModuleActivationService
      */
     public function excluded(): array
     {
-        return config('modulemanagement.excluded_modules', []);
+        return config('modulemanagement.config.excluded_modules', []);
     }
 
     /**

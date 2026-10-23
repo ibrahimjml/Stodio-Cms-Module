@@ -24,6 +24,10 @@ use Modules\Member\Database\Factories\MemberFactory;
 class Member extends Authenticatable
 {
     use HasFactory, Notifiable;
+    /** 
+     *  table refrence morph twofactor
+     * **/
+    public const TABLE = "member";
 
     protected function casts(): array
     {
