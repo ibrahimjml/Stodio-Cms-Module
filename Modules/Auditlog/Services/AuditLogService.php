@@ -58,7 +58,7 @@ class AuditLogService
         $this->log(
             module: $module,
             action: "{$verb} {$module} \"{$this->resolveReferenceLabel($model)}\"",
-            userId: $this->request->user() ? $this->request->user()->getKey() : 0,
+            userId: $this->request->user()?->getKey(),
             referenceUser: $this->resolveReferenceUser($model),
             referenceId: $model->getKey(),
             referenceName: $this->resolveReferenceLabel($model, $module),

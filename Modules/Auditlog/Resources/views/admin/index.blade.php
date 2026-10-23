@@ -40,7 +40,7 @@
                     <td class="px-4 py-4 whitespace-nowrap">
                         <div class="flex items-center">
                             <div class="shrink-0 w-8 h-8">
-                                <img class="w-8 h-8 rounded-full" src="{{ $auditLog->user->image_url }}" alt="{{ $auditLog->user?->name ?? __('Guard') }}">
+                                <img class="w-8 h-8 rounded-full" src="{{ $auditLog->user?->image_url }}" alt="{{ $auditLog->user?->name ?? __('Guard') }}">
                             </div>
                             <div class="ltr:ml-4 rtl:mr-4">
                                 <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $auditLog->user?->name ?? __('Guard') }}</div>

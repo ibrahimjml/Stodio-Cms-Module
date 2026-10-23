@@ -35,11 +35,14 @@
                     <td class="px-4 py-4 whitespace-nowrap">
                         <div class="flex items-center">
                             <div class="shrink-0 w-8 h-8">
-                                <img class="w-8 h-8 rounded-full" src="{{ $auditLog->user->image_url }}" alt="{{ $auditLog->user->name }}">
+                                <img class="w-8 h-8 rounded-full" src="{{ $auditLog->user?->image_url }}" alt="{{ $auditLog->user?->name ?? __('Guard') }}">
                             </div>
                             <div class="ltr:ml-4 rtl:mr-4">
-                                <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $auditLog->user->name }}</div>
+                                <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $auditLog->user?->name ?? __('Guard') }}</div>
                             </div>
+                        @if($auditLog->user->is(auth('web')->user()))
+                        <small class="text-xs p-1 rounded-lg ml-3 capitalize bg-blue-50 text-blue-600 dark:bg-blue-500/15 dark:text-blue-500">you</small>
+                        @endif
                         </div>
                     </td>
 
