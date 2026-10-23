@@ -83,6 +83,13 @@ php artisan stodio:acl:sync
 # seed permissions + roles
 php artisan module:seed Acl
 ```
+## Publish Assets for local and prod
+
+```bash
+# pass --force in prod
+php artisan vendor:publish --tag=stodio-assets
+
+```
 
 ## Modules
 
